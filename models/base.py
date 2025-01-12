@@ -1,12 +1,13 @@
 from db import db
 from typing import TypeVar, Type
+from sqlalchemy.orm import Mapped
 
 T = TypeVar("T", bound="BaseModel")
 
 
 class BaseModel(db.Model):
     __abstract__ = True
-    id = db.Column(db.Integer, primary_key=True)
+    id: Mapped[int] = db.Column(db.Integer, primary_key=True)
 
     def json(self) -> dict:
         return {"class": "base class"}
@@ -21,7 +22,11 @@ class BaseModel(db.Model):
 
     @classmethod
     def _find(cls, **kwargs):
-        return cls.query.filter_by(**kwargs)
+        condition = [
+            getattr(cls, key) == value if not key.startswith("not_") else getattr(cls, key) != value
+            for key, value in kwargs.items()
+        ]
+        return cls.query.filter(*condition)
 
     @classmethod
     def find_one(cls: Type["T"], **kwargs) -> Type["T"]:

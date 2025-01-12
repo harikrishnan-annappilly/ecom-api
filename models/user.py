@@ -1,12 +1,13 @@
 from db import db
 from models.base import BaseModel
+from sqlalchemy.orm import Mapped
 
 
 class UserModel(BaseModel):
-    username = db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(20), nullable=False)
-    role = db.Column(db.String(20), nullable=False, default="user")
-    active = db.Column(db.Boolean, default=True)
+    username: Mapped[str] = db.Column(db.String(20), nullable=False, unique=True)
+    password: Mapped[str] = db.Column(db.String(20), nullable=False)
+    role: Mapped[str] = db.Column(db.String(20), nullable=False, default="user")
+    active: Mapped[bool] = db.Column(db.Boolean, default=True)
 
     def json(self):
         return {
