@@ -4,7 +4,10 @@ from flask_restful import Api
 from datetime import timedelta
 
 from db import db
-from resources.user import UserResource, RegisterResource, LoginResource
+from resources.auth import RegisterResource, LoginResource
+from resources.user import UserResource
+from resources.common import CommonCategoriesResource
+from resources.admin import CategoryResource, SpecificCategoryResource
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -33,15 +36,18 @@ api = Api(api_bp)
 app.register_blueprint(api_bp, url_prefix="/api")
 
 # Common Resources
-api.add_resource(UserResource, "/users")
+api.add_resource(CommonCategoriesResource, "/categories")
 
 # Auth Resources
 api.add_resource(RegisterResource, "/auth/register")
 api.add_resource(LoginResource, "/auth/login")
 
 # Admin Resources
+api.add_resource(CategoryResource, "/admin/category")
+api.add_resource(SpecificCategoryResource, "/admin/category/<int:category_id>")
 
 # User Resources
+api.add_resource(UserResource, "/users")
 
 
 if __name__ == "__main__":
