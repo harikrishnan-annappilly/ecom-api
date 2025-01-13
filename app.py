@@ -4,10 +4,11 @@ from flask_restful import Api
 from datetime import timedelta
 
 from db import db
-from resources.auth import RegisterResource, LoginResource
+from resources.auth import AuthRegisterResource, AuthLoginResource
 from resources.user import UserResource
-from resources.common import CommonCategoriesResource
-from resources.admin import CategoryResource, SpecificCategoryResource
+from resources.common import CommonCategoriesResource, CommonProductsResource, CommonSpecificProductsResource
+from resources.admin import AdminCategoryResource, AdminSpecificCategoryResource
+from resources.admin import AdminProductResource, AdminSpecificProductResource
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -37,14 +38,18 @@ app.register_blueprint(api_bp, url_prefix="/api")
 
 # Common Resources
 api.add_resource(CommonCategoriesResource, "/categories")
+api.add_resource(CommonProductsResource, "/products")
+api.add_resource(CommonSpecificProductsResource, "/product/<int:product_id>")
 
 # Auth Resources
-api.add_resource(RegisterResource, "/auth/register")
-api.add_resource(LoginResource, "/auth/login")
+api.add_resource(AuthRegisterResource, "/auth/register")
+api.add_resource(AuthLoginResource, "/auth/login")
 
 # Admin Resources
-api.add_resource(CategoryResource, "/admin/category")
-api.add_resource(SpecificCategoryResource, "/admin/category/<int:category_id>")
+api.add_resource(AdminCategoryResource, "/admin/category")
+api.add_resource(AdminSpecificCategoryResource, "/admin/category/<int:category_id>")
+api.add_resource(AdminProductResource, "/admin/product")
+api.add_resource(AdminSpecificProductResource, "/admin/product/<int:product_id>")
 
 # User Resources
 api.add_resource(UserResource, "/users")

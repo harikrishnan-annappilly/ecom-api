@@ -4,7 +4,7 @@ from models.user import UserModel
 from utilities.utils import if_exist_400, find_or_404
 
 
-class RegisterResource(Resource):
+class AuthRegisterResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument("username", type=str, required=True)
@@ -22,7 +22,7 @@ class RegisterResource(Resource):
         return inner()
 
 
-class LoginResource(Resource):
+class AuthLoginResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument("username", type=str, required=True)
