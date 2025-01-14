@@ -5,6 +5,19 @@ from sqlalchemy.orm import Mapped
 T = TypeVar("T", bound="BaseModel")
 
 
+def transaction(save_items: list[Type["T"]], delete_items: list[Type["T"]]):
+    try:
+        db.session.add_all(save_items)
+        for item in delete_items:
+            db.session.delete(item)
+        db.session.commit()
+    except Exception as ex:
+        print("Error happaned while doing transation")
+        print("Error:", str(ex))
+        return False
+    return True
+
+
 class BaseModel(db.Model):
     __abstract__ = True
     id: Mapped[int] = db.Column(db.Integer, primary_key=True)

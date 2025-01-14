@@ -10,6 +10,7 @@ class UserModel(BaseModel):
     active: Mapped[bool] = db.Column(db.Boolean, default=True)
 
     carts: Mapped[list["T"]] = db.relationship("CartModel", backref="user", lazy=True, cascade="all, delete-orphan")
+    orders: Mapped[list["T"]] = db.relationship("OrderMainModel", backref="user", lazy=True)
 
     def json(self):
         return {

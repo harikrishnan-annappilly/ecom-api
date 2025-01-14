@@ -9,6 +9,9 @@ class ProductModel(BaseModel):
     category_id: Mapped[int] = db.Column(db.Integer, db.ForeignKey("category_model.id"))
 
     carts: Mapped[list["T"]] = db.relationship("CartModel", backref="product", lazy=True, cascade="all, delete-orphan")
+    order_subs: Mapped[list["T"]] = db.relationship(
+        "OrderSubModel", backref="product", lazy=True, cascade="all, delete-orphan"
+    )
 
     def json(self):
         self.category: BaseModel
