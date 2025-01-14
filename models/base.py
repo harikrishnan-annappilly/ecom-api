@@ -23,7 +23,7 @@ class BaseModel(db.Model):
     @classmethod
     def _find(cls, **kwargs):
         condition = [
-            getattr(cls, key) == value if not key.startswith("not_") else getattr(cls, key) != value
+            getattr(cls, key) == value if not key.startswith("not_") else getattr(cls, key.replace("not_", "")) != value
             for key, value in kwargs.items()
         ]
         return cls.query.filter(*condition)

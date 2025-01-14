@@ -36,8 +36,7 @@ class AdminSpecificCategoryResource(Resource):
         def inner(*args):
             (category,) = args
             category: CategoryModel
-            duplicate_category = CategoryModel.find_one(name=name)
-            if duplicate_category and duplicate_category.id != category.id:
+            if CategoryModel.find_one(not_id=category_id, name=name):
                 return {"message": f"category '{name}' already exist"}, 400
 
             category.name = name
@@ -104,8 +103,7 @@ class AdminSpecificProductResource(Resource):
         def inner(*args):
             (product, _) = args
             product: ProductModel
-            duplicate_product = ProductModel.find_one(name=name)
-            if duplicate_product and duplicate_product.id != product.id:
+            if ProductModel.find_one(not_id=product_id, name=name):
                 return {"message": f"product name '{name}' already exist"}, 400
 
             product.name = name
