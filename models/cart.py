@@ -1,11 +1,12 @@
 from db import db
 from models.base import BaseModel
+from sqlalchemy.orm import Mapped
 
 
 class CartModel(BaseModel):
-    user_id = db.Column(db.Integer, db.ForeignKey("user_model.id"), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey("product_model.id"), nullable=False)
-    qty = db.Column(db.Integer, nullable=False, default=1)
+    user_id: Mapped[int] = db.Column(db.Integer, db.ForeignKey("user_model.id"), nullable=False)
+    product_id: Mapped[int] = db.Column(db.Integer, db.ForeignKey("product_model.id"), nullable=False)
+    qty: Mapped[int] = db.Column(db.Integer, nullable=False, default=1)
 
     def json(self):
         return {
