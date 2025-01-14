@@ -38,8 +38,8 @@ class AuthLoginResource(Resource):
             if user.password != password:
                 return {"message": "incorrect password"}, 400
 
-            access_token = create_access_token(identity=username, additional_claims=user.json())
-            refresh_token = create_refresh_token(identity=username, additional_claims=user.json())
+            access_token = create_access_token(identity=str(user.id), additional_claims=user.json())
+            refresh_token = create_refresh_token(identity=str(user.id), additional_claims=user.json())
             return {"message": "login success!", "access_token": access_token, "refresh_token": refresh_token}, 200
 
         return inner()

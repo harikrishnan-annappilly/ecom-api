@@ -13,7 +13,7 @@ class AdminCategoryResource(Resource):
         payload = parser.parse_args()
         name = payload["name"]
 
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @if_exist_400(CategoryModel, message=f"'{name}' already exist", name=name)
         def inner():
             category = CategoryModel(name=name)
@@ -31,7 +31,7 @@ class AdminSpecificCategoryResource(Resource):
         payload = parser.parse_args()
         name = payload["name"]
 
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @find_or_404(CategoryModel, message=f"category with id '{category_id}' not found", id=category_id)
         def inner(*args):
             (category,) = args
@@ -48,7 +48,7 @@ class AdminSpecificCategoryResource(Resource):
 
     @jwt_required()
     def delete(self, category_id):
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @find_or_404(CategoryModel, message=f"category with '{category_id}' not found", id=category_id)
         def inner(*args):
             (category,) = args
@@ -75,7 +75,7 @@ class AdminProductResource(Resource):
         name = payload["name"]
         category_id = payload["category_id"]
 
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @if_exist_400(ProductModel, message=f"product '{name}' already exist", name=name)
         @find_or_404(CategoryModel, message=f"category with id '{category_id}' not found", id=category_id)
         def innner(*args):
@@ -98,7 +98,7 @@ class AdminSpecificProductResource(Resource):
         price = payload["price"]
         category_id = payload["category_id"]
 
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @find_or_404(ProductModel, message=f"product with id '{product_id}' not found", id=product_id)
         @find_or_404(CategoryModel, message=f"category with id '{category_id}' not found", id=category_id)
         def inner(*args):
@@ -118,7 +118,7 @@ class AdminSpecificProductResource(Resource):
 
     @jwt_required()
     def delete(self, product_id):
-        @admin_operation(username=get_jwt_identity())
+        @admin_operation(id=get_jwt_identity())
         @find_or_404(ProductModel, message=f"product with id '{product_id}' not found", id=product_id)
         def inner(*args):
             (product,) = args
