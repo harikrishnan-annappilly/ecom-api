@@ -8,6 +8,8 @@ class ProductModel(BaseModel):
     price: Mapped[float] = db.Column(db.Float, nullable=False, default=1)
     category_id: Mapped[int] = db.Column(db.Integer, db.ForeignKey("category_model.id"))
 
+    carts = db.relationship("CartModel", backref="product", lazy=True, cascade="all, delete-orphan")
+
     def json(self):
         self.category: BaseModel
         return {
