@@ -4,7 +4,7 @@ from models.user import UserModel
 from utilities.utils import user_logged_in
 
 
-class UserResource(Resource):
+class UserAccountResource(Resource):
     @jwt_required()
     def get(self):
         @user_logged_in(username=get_jwt_identity())

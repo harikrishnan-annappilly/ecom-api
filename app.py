@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from db import db
 from resources.auth import AuthRegisterResource, AuthLoginResource
-from resources.user import UserResource
+from resources.user import UserAccountResource
 from resources.common import CommonCategoriesResource, CommonProductsResource, CommonSpecificProductsResource
 from resources.admin import AdminCategoryResource, AdminSpecificCategoryResource
 from resources.admin import AdminProductResource, AdminSpecificProductResource
@@ -52,7 +52,7 @@ api.add_resource(AdminProductResource, "/admin/product")
 api.add_resource(AdminSpecificProductResource, "/admin/product/<int:product_id>")
 
 # User Resources
-api.add_resource(UserResource, "/users")
+api.add_resource(UserAccountResource, "/users")
 
 
 if __name__ == "__main__":
